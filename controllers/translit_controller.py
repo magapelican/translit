@@ -14,11 +14,6 @@ def tranlite():
     text = data.get('sourceText', '')
     from_to = data.get('Translite','')
 
-    print(data)
-    print(type(data))
-    print(from_to)
-    print(type(from_to))
-
     if from_to.lower().startswith("latin"):
         result = latin_to_cyrillic(text)
     else:

@@ -1,95 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Translate</title>
-<style>
-  body{
-    font-family:Arial,sans-serif;
-    max-width:800px;
-    margin:40px auto;
-    padding:0 16px;
-  }
-  h1{font-size:24px;font-weight:400;}
-  .row{
-    display:flex;
-    gap:16px;
-    margin-bottom:8px;
-  }
-  select{
-    font-size:14px;
-    padding:6px;
-  }
-  .fields{
-    display:flex;
-    gap:16px;
-  }
-  textarea{
-    flex:1;
-    height:200px;
-    font-size:16px;
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:4px;
-    font-family:inherit;
-    resize:vertical;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transliterate</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        .row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        select {
+            font-size: 14px;
+            padding: 6px;
+        }
+
+        .fields {
+            display: flex;
+            gap: 16px;
+        }
+
+        textarea {
+            flex: 1;
+            height: 200px;
+            font-size: 16px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        /* Smartphone */
+        @media (max-width: 600px) {
+
+            body {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+
+            .row {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            select {
+                width: 100%;
+            }
+
+            .fields {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            textarea {
+                width: 100%;
+                height: 180px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>Transliterate</h1>
+    <h1>Transliterate</h1>
 
-<div class="row">
-  <select id="Lang">
-    <option>Avar</option>
-  </select>
-  <select id="Translite">
-    <option>Cyrillic-Latin</option>
-    <option>Latin-Cyrillic</option>
-  </select>
-</div>
+    <div class="row">
+        <select id="Lang">
+            <option>Avar</option>
+        </select>
 
-<div class="fields">
-  <textarea id="sourceText" placeholder="Enter text"></textarea>
-  <textarea id="outputText" placeholder="Translation" readonly></textarea>
-</div>
+        <select id="Translite">
+            <option>Cyrillic-Latin</option>
+            <option>Latin-Cyrillic</option>
+        </select>
+    </div>
 
-<script>
-  async function transliterate(text, direction) {
-    const response = await fetch('/api/tranlite/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sourceText: text,
-        Translite: direction  // whatever value your latin_to_cyrillic expects
-      }),
-    });
+    <div class="fields">
+        <textarea
+            id="sourceText"
+            placeholder="Enter text"></textarea>
 
-    if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
-    }
+        <textarea
+            id="outputText"
+            placeholder="Translation"
+            readonly></textarea>
+    </div>
 
-    const data = await response.json();
-    return data.tranliterated;
-  }
+    <script>
+        async function transliterate(text, direction) {
 
-  // Example: wire it up to your textarea
-  document.getElementById('sourceText').addEventListener('input', async function () {
-    const text = this.value;
-    if (!text) {
-      document.getElementById('outputText').value = '';
-      return;
-    }
-    try {
-      translite = document.getElementById("Translite").value
-      const result = await transliterate(text, translite);
-      document.getElementById('outputText').value = result;
-    } catch (err) {
-      console.error('Transliteration failed:', err);
-    }
-  });
-</script>
+            const response = await fetch('/api/tranlite/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sourceText: text,
+                    Translite: direction
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            return data.tranliterated;
+        }
+
+
+        document
+            .getElementById('sourceText')
+            .addEventListener('input', async function () {
+
+                const text = this.value;
+
+                if (!text) {
+                    document.getElementById('outputText').value = '';
+                    return;
+                }
+
+                try {
+                    const translite =
+                        document.getElementById('Translite').value;
+
+                    const result =
+                        await transliterate(text, translite);
+
+                    document.getElementById('outputText').value = result;
+
+                } catch (err) {
+                    console.error('Transliteration failed:', err);
+                }
+            });
+    </script>
 
 </body>
 </html>
