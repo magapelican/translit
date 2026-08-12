@@ -5,6 +5,8 @@ main = Blueprint("main", __name__)
 
 @main.route("/", methods = ["GET", "POST"])
 def index():
+    locale = request.accept_languages.best_match(["en", "ru"])
+    print("Detected locale:", locale)
     return render_template("index.html")
 
 
