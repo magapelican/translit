@@ -78,27 +78,27 @@
 
 <body>
 
-    <h1>Transliterate</h1>
+    <h1>{{ _("Transliterate") }}</h1>
 
     <div class="row">
         <select id="Lang">
-            <option>Avar</option>
+            <option>{{ _("Avar") }}</option>
         </select>
 
         <select id="Translite">
-            <option>Cyrillic-Latin</option>
-            <option>Latin-Cyrillic</option>
+            <option>{{ _("Cyrillic-Latin") }}</option>
+            <option>{{ _("Latin-Cyrillic") }}</option>
         </select>
     </div>
 
     <div class="fields">
         <textarea
             id="sourceText"
-            placeholder="Enter text"></textarea>
+            placeholder="{{ _('Enter text') }}"></textarea>
 
         <textarea
             id="outputText"
-            placeholder="Translation"
+            placeholder="{{ _('Translation') }}"
             readonly></textarea>
     </div>
 
