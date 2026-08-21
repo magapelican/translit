@@ -1,11 +1,20 @@
-from mapping import *
+from mappings import avar
+from mappings import lak
 
 
-def cyrillic_to_latin(text):
-    return translite(text, CYRILLIC_TO_LATIN)
+MAPPINNGS = {
+    "avar": avar,
+    "lak": lak
+}
 
-def latin_to_cyrillic(text):
-    return translite(text, LATIN_TO_CYRILLIC)
+
+def cyrillic_to_latin(text, lang):
+    mapping = MAPPINNGS[lang.lower()]
+    return translite(text, mapping.CYRILLIC_TO_LATIN)
+
+def latin_to_cyrillic(text, lang):
+    mapping = MAPPINNGS[lang.lower()]
+    return translite(text, mapping.LATIN_TO_CYRILLIC)
 
 
 def translite(text, FROM_TO):

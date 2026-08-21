@@ -10,15 +10,15 @@ def index():
     return render_template("index.html")
 
 
-@main.route("/api/tranlite/", methods=["POST"])
-def tranlite():
+@main.route("/api/tranlite/<lang>", methods=["POST"])
+def tranlite(lang):
     data = request.get_json()
     text = data.get('sourceText', '')
     from_to = data.get('Translite','')
 
     if from_to.lower().startswith("latin"):
-        result = latin_to_cyrillic(text)
+        result = latin_to_cyrillic(text, lang)
     else:
-        result = cyrillic_to_latin(text)
+        result = cyrillic_to_latin(text, lang)
 
     return jsonify({'tranliterated': result})

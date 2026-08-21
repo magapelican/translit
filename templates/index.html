@@ -83,6 +83,7 @@
     <div class="row">
         <select id="Lang">
             <option>{{ _("Avar") }}</option>
+            <option>{{ _("Lak") }}</option>
         </select>
 
         <select id="Translite">
@@ -103,9 +104,9 @@
     </div>
 
     <script>
-        async function transliterate(text, direction) {
+        async function transliterate(text, direction, lang) {
 
-            const response = await fetch('/api/tranlite/', {
+            const response = await fetch(`/api/tranlite/${lang}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -141,8 +142,11 @@
                     const translite =
                         document.getElementById('Translite').value;
 
+                    const lang = 
+                        document.getElementById('Lang').value;
+
                     const result =
-                        await transliterate(text, translite);
+                        await transliterate(text, translite, lang);
 
                     document.getElementById('outputText').value = result;
 
